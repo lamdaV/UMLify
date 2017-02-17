@@ -1,7 +1,5 @@
 package analyzer.adapter;
 
-import analyzer.decorator.AdapterDecoratorTemplate;
-import analyzer.decorator.IAdapterDecoratorConfiguration;
 import analyzer.utility.IClassModel;
 import analyzer.utility.IMethodModel;
 import config.IConfiguration;
@@ -27,8 +25,9 @@ public class AdapterDetectorAnalyzer extends AdapterDecoratorTemplate {
     @Override
     protected boolean detectPattern(IClassModel clazz, IClassModel composedClazz, IClassModel parent,
             Set<IMethodModel> overridingMethods) {
-        return !(clazz.isSubClazzOf(composedClazz) || composedClazz.isSubClazzOf(parent))
-                && usedByAllAdaptedMethods(composedClazz, overridingMethods);
+        if (clazz.equals(parent) || clazz.isSubClazzOf(composedClazz) || composedClazz.isSubClazzOf(parent))
+            return false;
+        return usedByAllAdaptedMethods(composedClazz, overridingMethods);
     }
 
     private boolean usedByAllAdaptedMethods(IClassModel type, Set<IMethodModel> adaptedMethods) {
