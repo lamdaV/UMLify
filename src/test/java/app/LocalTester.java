@@ -37,7 +37,7 @@ public class LocalTester {
         config.set(RunnerConfiguration.FILE_NAME, "asmClass");
         config.set(RunnerConfiguration.EXECUTABLE_PATH, "dot");
         config.set(RunnerConfiguration.OUTPUT_FORMAT, "svg");
-        config.add(EngineConfiguration.ANALYZER_KEY, RelationParserAnalyzer.class.getName(),GoodDecoratorAnalyzer.class.getName() , BadDecoratorAnalyzer.class.getName(), AdapterDetectorAnalyzer.class.getName());
+        config.add(EngineConfiguration.ANALYZER_KEY, RelationParserAnalyzer.class.getName(), GoodDecoratorAnalyzer.class.getName(), BadDecoratorAnalyzer.class.getName(), AdapterDetectorAnalyzer.class.getName());
         config.add(ModelConfiguration.CLASSES_KEY, Component.class.getName(), GoodDecorator.class.getName(), GoodConcreteDecorator.class.getName(),
                 BadDecorator.class.getName(), BadConcreteDecorator.class.getName(), Adapee.class.getName(), Adapter.class.getName(), AdaptedTo.class.getName());
 

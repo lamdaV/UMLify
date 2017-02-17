@@ -1,4 +1,4 @@
-package adapterDecorator;
+package analyzer.decorator;
 
 import analyzer.decorator.BadDecoratorConfiguration;
 import analyzer.decorator.DecoratorTemplate;
