@@ -24,7 +24,7 @@ public class UMLEngine extends AbstractUMLEngine {
      *               parsed from file. See {@link ConfigurationFactor}
      * @return the UML engine
      */
-    static UMLEngine getInstance(IConfiguration config) {
+    public static UMLEngine getInstance(IConfiguration config) {
         return new UMLEngine(config.createConfiguration(EngineConfiguration.class));
     }
 
