@@ -1,13 +1,17 @@
-package analyzer.decorator;
+package adapterDecorator;
 
+import analyzer.decorator.BadDecoratorConfiguration;
+import analyzer.decorator.DecoratorTemplate;
+import analyzer.decorator.IAdapterDecoratorConfiguration;
 import analyzer.utility.IClassModel;
 import analyzer.utility.IMethodModel;
 import config.IConfiguration;
 import utility.MethodType;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * A Bad Decorator Analyzer. It will highlight classes that are likely
@@ -18,12 +22,18 @@ import java.util.stream.Collectors;
 public class BadDecoratorAnalyzer extends DecoratorTemplate {
     @Override
     protected Set<IMethodModel> getMappedMethods(IClassModel child, IClassModel composedClass, IClassModel parent) {
-        Collection<? extends IMethodModel> overridedMethods = parent.getMethods().stream()
-                .filter((method) -> method.getMethodType() == MethodType.METHOD).collect(Collectors.toList());
-
-        Set<IMethodModel> overridingMethods = child.getMethods().stream()
-                .filter((method) -> method.getMethodType() == MethodType.METHOD && isDecoratedMethod(method, overridedMethods))
-                .collect(Collectors.toSet());
+        Collection<IMethodModel> overridedMethods = new ArrayList<>();
+        for (IMethodModel m : parent.getMethods()) {
+            if (m.getMethodType() == MethodType.METHOD || m.getMethodType() == MethodType.ABSTRACT)
+                overridedMethods.add(m);
+        }
+        Set<IMethodModel> overridingMethods = new HashSet<>();
+        for (IMethodModel m : child.getMethods()) {
+            if (m.getMethodType() == MethodType.METHOD) {
+                if (isDecoratedMethod(m, overridedMethods))
+                    overridingMethods.add(m);
+            }
+        }
 
         if (overridingMethods.size() == overridedMethods.size()) {
             return null;
@@ -39,6 +49,6 @@ public class BadDecoratorAnalyzer extends DecoratorTemplate {
     @Override
     protected boolean detectPattern(IClassModel clazz, IClassModel composedClass, IClassModel parent,
                                     Set<IMethodModel> overridingMethods) {
-        return composedClass.isSubClazzOf(parent);
+        return !clazz.equals(parent) && composedClass.isSubClazzOf(parent);
     }
 }

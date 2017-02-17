@@ -1,11 +1,11 @@
 package analyzer.decorator;
 
-import java.util.Set;
-
 import analyzer.utility.IClassModel;
 import analyzer.utility.IFieldModel;
 import analyzer.utility.IMethodModel;
 import config.IConfiguration;
+
+import java.util.Set;
 
 /**
  * A Good Decorator Pattern Analyzer. It will highlight in green all suspected

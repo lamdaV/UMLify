@@ -1,13 +1,12 @@
-package staticInitializer;
+package analyzer.staticInitializer;
 
 import config.Configurable;
 import config.IConfiguration;
 
-public class StaticInitializerConfiguration implements Configurable{
-
-	public static final String CONFIG_PATH = "staticinitializer.";
+public class StaticInitializerConfiguration implements Configurable {
+    public static final String CONFIG_PATH = "staticinitializer.";
     public static final String COLOR = CONFIG_PATH + "color";
-	
+
     private IConfiguration config;
 
     @Override
@@ -16,7 +15,7 @@ public class StaticInitializerConfiguration implements Configurable{
         this.config.setIfMissing(StaticInitializerConfiguration.COLOR, "green");
     }
 
-    public String getFavorComColor() {
+    public String getColor() {
         return this.config.getValue(StaticInitializerConfiguration.COLOR);
     }
 

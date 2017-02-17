@@ -1,4 +1,4 @@
-package adapterDecorator;
+package analyzer.decorator;
 
 import analyzer.relationParser.RelationExtendsClass;
 import analyzer.relationParser.RelationHasA;
@@ -189,7 +189,7 @@ public abstract class AdapterDecoratorTemplate implements IAnalyzer {
      */
     protected void styleComposedClass(ISystemModel systemModel, IClassModel composedClazz) {
         addCommonFillColor(systemModel, composedClazz);
-        systemModel.addClassModelSteretypes(composedClazz, this.config.getComposedStereotype());
+        systemModel.addClassModelStereotype(composedClazz, this.config.getComposedStereotype());
     }
 
     /**
@@ -201,7 +201,7 @@ public abstract class AdapterDecoratorTemplate implements IAnalyzer {
      */
     protected void styleParent(ISystemModel systemModel, IClassModel parent) {
         addCommonFillColor(systemModel, parent);
-        systemModel.addClassModelSteretypes(parent, this.config.getParentStereotype());
+        systemModel.addClassModelStereotype(parent, this.config.getParentStereotype());
     }
 
     /**
@@ -213,7 +213,7 @@ public abstract class AdapterDecoratorTemplate implements IAnalyzer {
      */
     protected void styleChild(ISystemModel systemModel, IClassModel child) {
         addCommonFillColor(systemModel, child);
-        systemModel.addClassModelSteretypes(child, this.config.getChildStereotype());
+        systemModel.addClassModelStereotype(child, this.config.getChildStereotype());
     }
 
     /**

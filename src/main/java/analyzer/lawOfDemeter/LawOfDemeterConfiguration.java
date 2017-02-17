@@ -1,9 +1,9 @@
-package lawOfDemeter;
+package analyzer.lawOfDemeter;
 
 import config.Configurable;
 import config.IConfiguration;
 
-public class LawOfDemeterConfig implements Configurable {
+public class LawOfDemeterConfiguration implements Configurable {
     public static final String CONFIG_PATH = "lawOfDemeter.";
     public static final String FILL_COLOR = CONFIG_PATH + "fillColor";
     public static final String DEPENDS_LABEL = CONFIG_PATH + "label";

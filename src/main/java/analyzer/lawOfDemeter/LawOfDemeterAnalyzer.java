@@ -1,34 +1,28 @@
-package lawOfDemeter;
-
-import java.lang.reflect.Field;
-import java.util.HashSet;
-import java.util.Set;
+package analyzer.lawOfDemeter;
 
 import analyzer.relationParser.RelationDependsOn;
-import analyzer.utility.IAnalyzer;
-import analyzer.utility.IClassModel;
-import analyzer.utility.IFieldModel;
-import analyzer.utility.IInstructionModel;
-import analyzer.utility.IMethodModel;
-import analyzer.utility.ISystemModel;
-import analyzer.utility.ITypeModel;
+import analyzer.utility.*;
 import config.IConfiguration;
 import model.InstructionField;
 import model.InstructionMethod;
 import utility.MethodType;
 
+import java.lang.reflect.Field;
+import java.util.HashSet;
+import java.util.Set;
+
 public class LawOfDemeterAnalyzer implements IAnalyzer {
-    private LawOfDemeterConfig config;
+    private LawOfDemeterConfiguration config;
 
     @Override
     public void analyze(ISystemModel systemModel, IConfiguration iConfig) {
-        config = iConfig.createConfiguration(LawOfDemeterConfig.class);
+        config = iConfig.createConfiguration(LawOfDemeterConfiguration.class);
         for (IClassModel clazz : systemModel.getClasses()) {
-            Set<IClassModel> classFrieds = getFriendList(clazz);
+            Set<IClassModel> classFriends = getFriendList(clazz);
             for (IMethodModel method : clazz.getMethods()) {
                 Set<IClassModel> friends = getFriendList(method);
-                friends.addAll(classFrieds);
-                checkForViolation(method, classFrieds, systemModel);
+                friends.addAll(classFriends);
+                checkForViolation(method, classFriends, systemModel);
             }
         }
     }
@@ -40,8 +34,9 @@ public class LawOfDemeterAnalyzer implements IAnalyzer {
             ITypeModel typeModel = fieldModel.getFieldType();
             friends.addAll(typeModel.getDependentClass());
         }
-        if (clazz.getSuperClass() != null)
+        if (clazz.getSuperClass() != null) {
             friends.add(clazz.getSuperClass());
+        }
         for (IClassModel intf : clazz.getInterfaces()) {
             friends.add(intf);
         }
@@ -64,20 +59,22 @@ public class LawOfDemeterAnalyzer implements IAnalyzer {
     private void checkForViolation(IMethodModel method, Set<IClassModel> friends, ISystemModel systemModel) {
         for (IInstructionModel called : method.getInstructions()) {
             IClassModel belongTo = getCalledOn(called);
-            if (belongTo != null && !isFriend(belongTo, friends))
+            if (belongTo != null && !isFriend(belongTo, friends)) {
                 styleViolationTo(method.getBelongTo(), belongTo, systemModel);
+            }
         }
     }
 
     private IClassModel getCalledOn(IInstructionModel called) {
         ITypeModel value;
+        Field field;
         try {
             if (called instanceof InstructionMethod) {
-                Field field = InstructionMethod.class.getDeclaredField("calledOn");
+                field = InstructionMethod.class.getDeclaredField("calledOn");
                 field.setAccessible(true);
                 value = (ITypeModel) field.get(called);
             } else if (called instanceof InstructionField) {
-                Field field = InstructionField.class.getDeclaredField("calledOn");
+                field = InstructionField.class.getDeclaredField("calledOn");
                 field.setAccessible(true);
                 value = (ITypeModel) field.get(called);
             } else {
@@ -90,20 +87,17 @@ public class LawOfDemeterAnalyzer implements IAnalyzer {
     }
 
     private boolean isFriend(IClassModel clazz, Set<IClassModel> friends) {
-        for (IClassModel friend : friends) {
-            if (clazz.isSubClazzOf(friend))
-                return true;
-        }
-        return false;
+        return friends.stream()
+                .anyMatch(clazz::isSubClazzOf);
     }
 
     private void styleViolationTo(IClassModel thisClass, IClassModel dependClass, ISystemModel systemModel) {
         Set<? extends IClassModel> classes = systemModel.getClasses();
         systemModel.addClassModelStyle(thisClass, "style", "filled");
         systemModel.addClassModelStyle(thisClass, "color", config.getFillColor());
-        if (classes.contains(dependClass))
+        if (classes.contains(dependClass)) {
             systemModel.addStyleToRelation(thisClass, dependClass, RelationDependsOn.REL_KEY, "xlabel",
                     config.getDependsLabel());
+        }
     }
-
 }
