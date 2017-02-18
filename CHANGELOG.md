@@ -102,6 +102,9 @@
 
 - **Adam:**
 
+  - Implemented Adapter Analyzer.
+  - Created Demo JSON 
+  
 - **David:**
 
   - Implemented Shared Template for Adapter and Decorator analyzers.
@@ -110,3 +113,20 @@
   - Discussed with Adam on how to perform Adapter detection.
   - Heavily refactored code base for stylistic changes and Stream incorporation.
   - Wrote README.md edits.
+  
+# Milestone 05:
+  
+- **Fred:**
+
+  - Implemented Law of Demeter Analyzer.
+  - Worked with David to fix bugs with Adapter and Decorator for specific cases.
+
+- **Adam:**
+
+  - Implemented Public Static Initializer Analyzer.
+  - Implemented properties file parser.
+  
+- **David:**
+
+  - Implemented the Graphic User Interface using MVC.
+  - Implemented dynamic config parsing.
