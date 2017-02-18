@@ -172,4 +172,4 @@ Here is a link to our project's overall UML. There are around 100 classes in our
 
 ## Change Logs:
 
-See each members responsibility [here](https://ada.csse.rose-hulman.edu/zhangq2/Fad/blob/master/CHANGELOG.md).
+See each members responsibility [here](https://github.com/lamdaV/UMLify/blob/master/CHANGELOG.md).
